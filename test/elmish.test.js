@@ -375,18 +375,21 @@ test('elmish.route updates the url hash and sets history', function (t) {
 // Testing localStorage requires "polyfil" because:
 // https://github.com/jsdom/jsdom/issues/1137 ¯\_(ツ)_/¯
 // globals are bad! but a "necessary evil" here ...
-global.localStorage = global.localStorage ? global.localStorage : {
-  getItem: function(key) {
-   const value = this[key];
-   return typeof value === 'undefined' ? null : value;
- },
- setItem: function (key, value) {
-   this[key] = value;
- },
- removeItem: function (key) {
-   delete this[key]
- }
+if (!global.localStorage || typeof global.localStorage.removeItem === 'undefined') {
+  global.localStorage = {
+    getItem: function(key) {
+      const value = this[key];
+      return typeof value === 'undefined' ? null : value;
+    },
+    setItem: function (key, value) {
+      this[key] = value;
+    },
+    removeItem: function (key) {
+      delete this[key]
+    }
+  };
 }
+
 localStorage.removeItem('todos-elmish_' + id);
 // localStorage.setItem('hello', 'world!');
 // console.log('localStorage (polyfil) hello', localStorage.getItem('hello'));

@@ -90,16 +90,16 @@ test("testClearCompletedRemovesDoneTodos", (t) => {
 });
 
 test("testDoubleClickStartsEditMode", (t) => {
+  const id = 1;
   const model = {
-    todos: [{ id: 1, title: "a", done: false, lastClick: 1000 }],
+    todos: [{ id: id, title: "a", done: false }],
     hash: "#/",
+    clicked: id,
+    click_time: Date.now()
   };
 
-  // Bu test object-action kullanır. update() fonksiyonun
-  // {type:"EDIT", id, now} formatını desteklemelidir.
-  const action = { type: "EDIT", id: 1, now: 1100 };
-  const result = app.update(action, model);
+  const result = app.update("EDIT", model, id);
 
-  t.equal(result.editing, 1);
+  t.equal(result.editing, id);
   t.end();
 });
