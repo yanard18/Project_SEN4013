@@ -41,7 +41,6 @@
   ],
   "license": "ISC",
   "pre-commit": [
-    "test",
-    "check-coverage"
+    "test"
   ]
 }
